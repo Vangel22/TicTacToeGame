@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tic Tac Toe </title>
+        <link rel="stylesheet" href="css/master.css">
+    </head>
+    <body>
+        <div id="game-view">
+            <div id="game-view-info">
+                {{ infoMessage }}
+            </div>
+            <div id="game-view-squares">
+                <div 
+                v-for="(square, i) in squares" 
+                v-on:click="activeGame.makeMove(i)"
+                v-bind:class="{ highlighted: square.isHighlighted }"
+                class="game-view-square"> <!-- if the v-bind square is highlighted we add highlighted to the class list in class-->
+                    {{ square.value }} <!-- this will print the property of the square -->
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue" charset="utf-8"></script>
+        <script src="js/Game.js" charset="utf-8"></script>
+        <script src="js/Square.js" charset="utf-8"></script>
+        <script type="text/javascript">
+        //For testing and debugging
+        
+        let activeGame = new Game();  
+        
+        let gameVue = new Vue({
+            el: '#game-view',
+            data: activeGame,              //objects that we want to be updated as it changes
+            computed: { //dynamic properties to have data
+                infoMessage: function(){
+                    if(this.inProgress){ //this object reffers to data -> and data reffers to activeGame -> and activeGame reffers to Game();
+                        return 'It is '+ this.currentTurn + '\'s turn!';
+                    }
+
+                    if(this.winner){
+                        return this.winner + ' wins';
+                    }
+
+                    if(!this.winner && !this.inProgress){
+                        return 'Draw!';
+                    }
+                }
+            }
+        });
+
+        </script>
+    </body>
+
+</html>
